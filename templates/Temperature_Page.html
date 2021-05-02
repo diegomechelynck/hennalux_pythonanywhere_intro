@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Stats de pêche personnels</title>
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load("current", {packages:["corechart"]});
+      google.charts.setOnLoadCallback(drawChart);
+
+      google.charts.load('current', {'packages':['table']});
+      google.charts.setOnLoadCallback(drawTable);
+      function drawChart() {
+
+
+      var data = new google.visualization.DataTable();
+      data.addColumn('string', 'Date');
+      data.addColumn('number', 'Brussels');
+      data.addColumn('number', 'Namur');
+
+      data.addRows([
+            {% for listitem in data %}
+            [
+    			{% for key, value in listitem.items() %}
+    				{% if value is string %}
+    					 '{{ value }}',
+    				{% else %}
+    					{{ value }},
+    				{% endif %}
+    			{% endfor %}
+    			],
+    		{% endfor %}
+      ]);
+
+
+      var data_predictions = new google.visualization.DataTable();
+      data_predictions.addColumn('string', 'City');
+      data_predictions.addColumn('number', 'Predicted_Temp');
+
+      data_predictions.addRows([
+            {% for listitem in preditcions %}
+            [
+    			{% for key, value in listitem.items() %}
+    				{% if value is string %}
+    					 '{{ value }}',
+    				{% else %}
+    					{{ value }},
+    				{% endif %}
+    			{% endfor %}
+    			],
+    		{% endfor %}
+      ]);
+
+
+
+
+      var options = {
+    cssClassNames: {
+        hAxis: {
+          title: 'Date'
+        },
+        vAxis: {
+          title: 'Temperature evolution in Brussels and Namur'
+        },
+        colors: ['#a52714', '#097138']
+      }};
+
+        var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+
+        var table = new google.visualization.Table(document.getElementById('table_div'));
+        table.draw(data_predictions, {showRowNumber: false, width: '100%', height: '100%'});
+      }
+    </script>
+</head>
+
+
+
+
+<body>
+    <h3>Temperature History & Forecasts By Diego Mechelynck</h3>
+<br><br>
+
+<br><br>
+
+    <div id="chart_div" style="width: 2000px; height: 500px;"></div>
+	<div id="table_div" style="width: 900px;"></div>
+
+
+</body>
+</html>
