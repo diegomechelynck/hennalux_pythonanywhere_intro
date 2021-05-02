@@ -3,6 +3,10 @@ from Predict_Next_Day_Weather import Predict_Next_Day_Weather, Get_Weather_Histo
 
 app = Flask(__name__)
 
+@app.route("/")
+def Home():
+    return render_template('Home.html')
+
 @app.route("/temperature")
 def Show_Temp_Data():
     Temperature_History = Get_Weather_History()
