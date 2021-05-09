@@ -34,7 +34,7 @@ def Predict_Next_Day_Weather():
 def Get_Weather_History():
     Conn = Engine.connect()
     Query="""
-        SELECT concat(year(a.Date),"-",month(a.Date), "-", day(a.Date)) as Date, a.Temperature as Temp_Brussels, b.Temperature as Temp_Namur
+        SELECT concat(year(a.Date),"-",month(a.Date), "-", case when length(day(a.Date))=1 then concat('0', day(a.Date)) else day(a.Date) end) as Date, a.Temperature as Temp_Brussels, b.Temperature as Temp_Namur
         from Temperature_History a
         left join Temperature_History b on a.Date=b.Date
         WHERE a.City="Brussels" and b.City="Namur"
